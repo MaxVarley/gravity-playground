@@ -1,7 +1,7 @@
-import { Simulation } from '../src/simulation.js';
-import { Body } from '../src/body.js';
-import * as Vector from '../src/vector.js';
-import { TEMPLATES } from '../src/templates.js';
+import { Simulation } from './src/simulation.js';
+import { Body } from './src/body.js';
+import * as Vector from './src/vector.js';
+import { TEMPLATES } from './src/templates.js';
 
 
 const AU_IN_EARTH_RADII = 149597870700 / 6371000;
