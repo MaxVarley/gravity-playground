@@ -294,6 +294,74 @@ canvas.addEventListener('wheel', function(e) {
     e.preventDefault();
 }, { passive: false });
 
+// --- Touch support for pan/zoom/tap ---
+
+let lastTouch = null;
+let pinchStartDist = null;
+let pinchStartZoom = null;
+
+canvas.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+        // One finger: pan start
+        lastTouch = [e.touches[0].clientX, e.touches[0].clientY];
+    } else if (e.touches.length === 2) {
+        // Two fingers: pinch zoom start
+        pinchStartDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        pinchStartZoom = camera.zoom;
+    }
+}, {passive: false});
+
+canvas.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 1 && lastTouch) {
+        // Pan
+        const dx = (e.touches[0].clientX - lastTouch[0]) / camera.zoom;
+        const dy = (e.touches[0].clientY - lastTouch[1]) / camera.zoom;
+        camera.offset[0] -= dx;
+        camera.offset[1] -= dy;
+        lastTouch = [e.touches[0].clientX, e.touches[0].clientY];
+        draw();
+    } else if (e.touches.length === 2 && pinchStartDist !== null) {
+        // Pinch zoom
+        const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        let newZoom = pinchStartZoom * (dist / pinchStartDist);
+        camera.zoom = Math.max(0.000025, Math.min(newZoom, 10));
+        draw();
+    }
+    e.preventDefault();
+}, {passive: false});
+
+canvas.addEventListener('touchend', function(e) {
+    if (e.touches.length === 0) {
+        lastTouch = null;
+        pinchStartDist = null;
+        pinchStartZoom = null;
+    }
+}, {passive: false});
+
+canvas.addEventListener('touchcancel', function(e) {
+    lastTouch = null;
+    pinchStartDist = null;
+    pinchStartZoom = null;
+}, {passive: false});
+
+// --- Tap support (simulate click) ---
+canvas.addEventListener('touchend', function(e) {
+    if (e.changedTouches.length === 1 && e.touches.length === 0) {
+        // Very simple: treat as click if not a pinch or drag
+        const touch = e.changedTouches[0];
+        const rect = canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        onCanvasClick({button: 0, clientX: touch.clientX, clientY: touch.clientY, preventDefault: ()=>{}})
+    }
+}, {passive: false});
+
 // Spawner Preset Selection
 document.querySelectorAll('.spawner-btn').forEach(btn => {
     btn.addEventListener('click', e => {
