@@ -7,7 +7,6 @@ import { TEMPLATES } from './src/templates.js';
 const AU_IN_EARTH_RADII = 149597870700 / 6371000;
 const WORLD_BOUNDS = 20000000; // in Earth radii
 
-
 // Spawner Presets
 const SPAWNER_PRESETS = {
     sun: {
