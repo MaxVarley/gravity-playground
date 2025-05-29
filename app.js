@@ -233,7 +233,7 @@ canvas.addEventListener('mouseup', function(e) {
             addStartScreen[0] - mouseX,
             addStartScreen[1] - mouseY 
         ];
-        const scale = 0.02;
+        const scale = 0.005;
         const v_world = [dragVecScreen[0] * scale / camera.zoom, dragVecScreen[1] * scale / camera.zoom];
 
         if (currentSpawner !== "custom") {

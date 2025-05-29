@@ -93,34 +93,6 @@ export const TEMPLATES = {
         }
     },
 
-    chaos: {
-        name: "Chaos",
-        description: "Sun, Earth, Mars, and a rogue mass. Slight tweaks cause unpredictable results!",
-        setup: function(sim, AU_IN_EARTH_RADII) {
-            sim.bodies = [];
-            // Sun
-            sim.addBody(new Body([0, 0], [0, 0], SUN_MASS, SUN_RADIUS, "#ffff00"));
-            // Earth
-            sim.addBody(new Body(
-                [1 * AU_IN_EARTH_RADII, 0],
-                [0, 29.78 / 6371 * 7200],
-                1, 1, "#1e90ff"
-            ));
-            // Mars
-            sim.addBody(new Body(
-                [1.524 * AU_IN_EARTH_RADII, 0],
-                [0, 24.077 / 6371 * 7200],
-                0.107, 0.53, "#c1440e"
-            ));
-            // Rogue
-            sim.addBody(new Body(
-                [1.1 * AU_IN_EARTH_RADII, 0.06 * AU_IN_EARTH_RADII],
-                [0, 28.0 / 6371 * 7200],
-                0.2, 0.5, "#aaaaff"
-            ));
-        }
-    },
-
     sunJupiterTrojan: {
         name: "Sun-Jupiter-Trojan",
         description: "Sun, Jupiter, and a Trojan asteroid at Jupiter's L4 point (stable configuration).",
