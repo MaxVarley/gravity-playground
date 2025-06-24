@@ -12,20 +12,23 @@ Visualise orbits and experiment with different systems in real time!
 - **Solar system & classic scenarios**  
   (Sun, planets, binary stars, three-body chaos, and more)
 - **Custom object spawning**  
-  Drag to set velocity, choose preset or custom mass/size/colour
+  Drag to set velocity, choose preset, or custom mass/size/colour
 - **Controls:**  
   Pause/Resume, logarithmic time scaling (0.01x–1000x), clear all, toggle trails, show/hide object details
-- **Modern, glassy UI** (responsive and accessible)
-- **Open source**—fork it or suggest new features
+- **Modern, glassy UI**
 
 ---
 
 ## Included Templates
 
-- **Solar System** — All 8 planets + Pluto
-- **Binary System** — Two sun-like stars in mutual orbit
-- **Three-Body** — Sun, Earth, and a rogue planet
-- **Sun-Jupiter-Trojan** — Jupiter with an L4 Trojan asteroid
+- **Solar System**
+   All 8 planets + Pluto
+- **Binary System**
+  Two sun-like stars in mutual orbit
+- **Three-Body**
+  Sun, Earth, and a rogue planet
+- **Sun-Jupiter-Trojan**
+  Jupiter with an L4 Trojan asteroid
 
 ---
 
