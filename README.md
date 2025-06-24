@@ -21,13 +21,13 @@ Visualise orbits and experiment with different systems in real time!
 
 ## Included Templates
 
-- **Solar System**
+- **Solar System** 
    All 8 planets + Pluto
-- **Binary System**
+- **Binary System** 
   Two sun-like stars in mutual orbit
-- **Three-Body**
+- **Three-Body** 
   Sun, Earth, and a rogue planet
-- **Sun-Jupiter-Trojan**
+- **Sun-Jupiter-Trojan** 
   Jupiter with an L4 Trojan asteroid
 
 ---
