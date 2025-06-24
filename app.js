@@ -35,17 +35,17 @@ const ctx = canvas.getContext('2d');
 // Set up the simulation
 const sim = new Simulation();
 
-// --- Animation & Control Variables ---
+// Animation & Control Variables
 let running = true;
 let timescale = 1; // multiplier
 let selectedBody = null; // For editing/deleting
 const FPS = 60;
 const DT = 1 / FPS;
 
-// --- Camera for Pan & Zoom ---
+// Camera for Pan & Zoom
 let camera = {
     offset: [0, 0],   // world coords offset (pixels or AU)
-    zoom: 1           // zoom factor (1 = 1:1, 2 = double size, etc)
+    zoom: 1           // zoom factor
 };
 
 // Velocity drag vector
@@ -55,7 +55,7 @@ let addStartScreen = null;    // [x, y] screen coords for arrow start
 let addCurrentScreen = null;  // [x, y] current screen coords (for arrow preview)
 let addVelocity = [0, 0];     // velocity vector for prefill
 
-// --- Panning State ---
+// Panning State
 let isPanning = false;
 let lastPan = null;
 
@@ -77,7 +77,7 @@ templateSelect.onchange = function() {
 
         // Reset camera
         camera.offset = [0, 0];   // Center on 0,0
-        camera.zoom = 0.01;          // Or pick a nice zoom, e.g., 0.05 for solar system
+        camera.zoom = 0.01;
 
         // Load scenario
         TEMPLATES[val].setup(sim, AU_IN_EARTH_RADII);
@@ -95,7 +95,7 @@ templateSelect.onchange = function() {
 
 
 
-// --- Pause/Resume Button ---
+// Pause/Resume Button
 const pauseBtn = document.getElementById('pauseBtn');
 pauseBtn.onclick = () => {
     running = !running;
@@ -103,7 +103,7 @@ pauseBtn.onclick = () => {
     if (running) requestAnimationFrame(animate);
 };
 
-// -- - Toggle Trails Button ---
+// Toggle Trails Button
 let showTrails = true;
 
 const toggleTrailBtn = document.getElementById('toggleTrailBtn');
@@ -115,11 +115,10 @@ toggleTrailBtn.onclick = function() {
         sim.bodies.forEach(b => b.history = []);
     }
     // If turning on, immediately start collecting new history
-    // (No action needed—next sim.step will add positions)
     draw();
 };
 
-// --- Toggle Details Button ---
+// Toggle Details Button
 let showDetails = false;
 
 const toggleDetailsBtn = document.getElementById('toggleDetailsBtn');
@@ -130,7 +129,7 @@ toggleDetailsBtn.onclick = function() {
 };
 
 
-// --- Timescale Control ---
+// Timescale Control
 const timescaleSlider = document.getElementById('timescale');
 const timescaleLabel = document.getElementById('timescaleLabel');
 
@@ -156,7 +155,7 @@ timescaleSlider.oninput = function() {
     timescaleLabel.textContent = formatTimescale(timescale);
 };
 
-// --- Pan/Zoom Mouse Events ---
+// Pan/Zoom Mouse Events
 canvas.addEventListener('mousedown', function(e) {
     // Right-click (button 2) or middle (button 1) drag for pan
     if (e.button === 2 || e.button === 1) {
@@ -206,7 +205,7 @@ canvas.addEventListener('mouseup', function(e) {
         return;
     }
 
-    // --- Edit existing body by simple click (not dragging to create new) ---
+    // Edit existing body by simple click (not dragging to create new)
     // Only if: paused, not currently adding, left button
     if (!running && !isAddingBody && e.button === 0) {
         const rect = canvas.getBoundingClientRect();
@@ -222,7 +221,7 @@ canvas.addEventListener('mouseup', function(e) {
         }
     }
 
-    // --- Adding a new body by drag/click ---
+    // Adding a new body by drag/click
     if (isAddingBody && e.button === 0) {
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
@@ -237,7 +236,7 @@ canvas.addEventListener('mouseup', function(e) {
         const v_world = [dragVecScreen[0] * scale / camera.zoom, dragVecScreen[1] * scale / camera.zoom];
 
         if (currentSpawner !== "custom") {
-            // --- Spawn preset immediately, no menu ---
+            // Spawn preset immediately, no menu
             const preset = SPAWNER_PRESETS[currentSpawner];
             if (sim.bodies.length >= 30) {
                 alert("Maximum of 30 bodies reached! Please delete some first.");
@@ -258,7 +257,7 @@ canvas.addEventListener('mouseup', function(e) {
             addVelocity = [0, 0];
             draw();
         } else {
-            // --- Custom: Show menu for configuration ---
+            // Custom: Show menu for configuration
             addVelocity = v_world;
             showNewBodyMenuFromDrag(worldPos, addVelocity, addStartScreen[0], addStartScreen[1]);
             isAddingBody = false;
@@ -294,7 +293,7 @@ canvas.addEventListener('wheel', function(e) {
     e.preventDefault();
 }, { passive: false });
 
-// --- Touch support for pan/zoom/tap ---
+// Touch support for pan/zoom/tap
 
 let lastTouch = null;
 let pinchStartDist = null;
@@ -350,7 +349,7 @@ canvas.addEventListener('touchcancel', function(e) {
     pinchStartZoom = null;
 }, {passive: false});
 
-// --- Tap support (simulate click) ---
+// Tap support (simulate click)
 canvas.addEventListener('touchend', function(e) {
     if (e.changedTouches.length === 1 && e.touches.length === 0) {
         // Very simple: treat as click if not a pinch or drag
@@ -406,7 +405,7 @@ function drawScaleMarker() {
     ctx.restore();
 }
 
-// --- Drawing Functions (using camera) ---
+// Drawing Functions (using camera)
 function toScreen([x, y]) {
     return [
         (x - camera.offset[0]) * camera.zoom + canvas.width / 2,
@@ -545,7 +544,7 @@ function drawBodyWithCamera(body) {
 }
 
 
-// --- Animation Loop ---
+// Animation Loop
 function animate(timestamp) {
     if (running) {
         sim.step(DT * timescale);
@@ -595,7 +594,7 @@ function showNewBodyMenu(x, y) {
     showNewBodyMenuFromDrag(world, [0, 0], x, y);
 }
 
-// --- Show New Body Menu for click OR drag ---
+//  Show New Body Menu for click OR drag 
 function showNewBodyMenuFromDrag(worldPos, velocity, screenX, screenY) {
     const menu = document.getElementById('bodyMenu');
     menu.style.display = 'block';
@@ -630,7 +629,7 @@ function showNewBodyMenuFromDrag(worldPos, velocity, screenX, screenY) {
 }
 
 
-// --- Show Edit Body Menu ---
+//  Show Edit Body Menu 
 function showEditBodyMenu(body, x, y) {
     const menu = document.getElementById('bodyMenu');
     menu.style.display = 'block';
@@ -665,10 +664,10 @@ function showEditBodyMenu(body, x, y) {
     };
 }
 
-// --- Hide menu helper for Cancel buttons ---
+//  Hide menu helper for Cancel buttons 
 window.hideMenu = function() {
     document.getElementById('bodyMenu').style.display = 'none';
 };
 
-// --- Start the animation loop ---
+//  Start the animation loop 
 requestAnimationFrame(animate);
