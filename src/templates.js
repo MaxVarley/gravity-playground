@@ -106,7 +106,7 @@ export const TEMPLATES = {
                 [0, 13.07 / 6371 * 7200],
                 317.8, 11.2, "#e5debd"
             ));
-            // L4 Trojan: 60° ahead of Jupiter
+            // L4 Trojan: 60 deg ahead of Jupiter
             const r = 5.203 * AU_IN_EARTH_RADII;
             const angle = Math.PI / 3; // 60 degrees
             const trojanX = r * Math.cos(angle);
